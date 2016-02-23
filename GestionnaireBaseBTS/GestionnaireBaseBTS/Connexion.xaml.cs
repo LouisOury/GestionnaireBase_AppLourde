@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using GestionnaireBaseBTS.OV;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,31 +22,66 @@ namespace GestionnaireBaseBTS
     /// </summary>
     public partial class Connexion : Window
     {
+        private List<OVAgent> lstAgent = new List<OVAgent>();
+
+        DBConnect connect = new DBConnect();
+
         public Connexion()
         {
             InitializeComponent();
+
+            connect.openConnect();
+
+            //AlimenterListeAgent();
+
+
+        }
+
+        private void AlimenterListeAgent()
+        {
+            String loadAgent = "SELECT PseudoAgent, PasswordAgent FROM Agent WHERE PseudoAgent = @pseudoAgent and PasswordAgent = @passwordAgent";
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Parameters.AddWithValue("@pseudoAgent", this.tbLogin.Text);
+            cmd.Parameters.AddWithValue("@passwordagent", this.tbPassword.Password);
+            MySqlDataReader myLoginReader = cmd.ExecuteReader();
+            cmd.CommandText = loadAgent;
+            MySqlDataAdapter ad = new MySqlDataAdapter();
+            ad.SelectCommand = cmd;
+            cmd.Connection = connect.con;
+            DataSet ds = new DataSet();
+            ad.Fill(ds);
+            foreach (DataRowView rowView in ds.Tables[0].DefaultView)
+            {
+                OVAgent ovAgent = new OVAgent();
+                ovAgent.PseudoAgent = rowView["PseudoAgent"].ToString();
+                ovAgent.PasswordAgent = rowView["PasswordAgent"].ToString();
+
+                lstAgent.Add(ovAgent);
+            }
         }
 
         private void btnConnexion_Click(object sender, RoutedEventArgs e)
         {
-            MySqlConnection con = new MySqlConnection("Server=localhost;Database=gestionbase;Uid=root;Pwd=;");
-            MySqlCommand cmd = new MySqlCommand("SELECT PseudoAgent, PasswordAgent FROM Agent", con);
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-
-            //Faire une boucle sur Rows[0]
-            if (tbPassword.Password == dt.Rows[0]["PasswordAgent"].ToString() && tbLogin.Text == dt.Rows[0]["PseudoAgent"].ToString())
+            using (MySqlCommand myLoginCommand = new MySqlCommand("SELECT PseudoAgent, PasswordAgent FROM Agent WHERE PseudoAgent = @PseudoAgent and PasswordAgent = @PasswordAgent", connect.con))
             {
-                MainWindow mainWindow = new MainWindow();
-                this.Close();
-                mainWindow.Show();
-            }
-            else
-            {
-                MessageBox.Show("Login ou password incorrecte !");
-            }
+                myLoginCommand.Parameters.AddWithValue("PseudoAgent", tbLogin.Text);
+                myLoginCommand.Parameters.AddWithValue("PasswordAgent", tbPassword.Password);
 
+                MySqlDataReader myLoginReader = myLoginCommand.ExecuteReader();
+
+                if (myLoginReader.Read())
+                {
+                    MainWindow mainWindow = new MainWindow();
+                    this.Close();
+                    mainWindow.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Login ou password incorrecte !");
+                }
+                myLoginReader.Close();
+            }
+            connect.con.Close();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace GestionnaireBaseBTS
             if (con != null && con.State == ConnectionState.Closed)
             {
                 con.Open();
-                MessageBox.Show("Connexion réussie !");
+                //MessageBox.Show("Connexion réussie !");
             }
         }
 

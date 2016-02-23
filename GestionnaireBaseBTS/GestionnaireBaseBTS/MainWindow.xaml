@@ -132,7 +132,7 @@
             <!-- MENU -->
             <Menu>
                 <MenuItem Header="Fichier">
-                    <MenuItem Header="Ajouter Client" Click="MenuAddClient_Click">
+                    <MenuItem Header="Ajouter Agent" Click="MenuAddClient_Click">
                         <MenuItem.Icon>
                             <Image Source="Images/User-Add.png" />
                         </MenuItem.Icon>
@@ -161,7 +161,7 @@
                                             <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
                                                 <VisualBrush.Visual>
                                                     <TextBlock FontStyle="Italic" Text="Rechercher un client"/>
-                                                </VisualBrush.Visual>
+                                                </VisualBrush.Visual> 
                                             </VisualBrush>
                                         </TextBox.Resources>
                                         <TextBox.Style>
@@ -212,7 +212,7 @@
                 <StackPanel x:Name="spHeight" Grid.Row="1" />
             </Grid>
 
-            <TextBlock Grid.Column="1" Text="Bonjour : Louis Oury" HorizontalAlignment="Right" Margin="0,2,10,0" FontSize="13" />
+            <TextBlock x:Name="tbUtilisateur"  Grid.Column="1" HorizontalAlignment="Right" Margin="0,2,10,0" FontSize="13" />
 
             <TextBlock Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Aucune base sélectionnée" FontSize="24" FontWeight="Light" Foreground="#FF6E6E6E" />
 

@@ -74,8 +74,8 @@
     <Compile Include="Connexion.xaml.cs">
       <DependentUpon>Connexion.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CreateClient.xaml.cs">
-      <DependentUpon>CreateClient.xaml</DependentUpon>
+    <Compile Include="CreateAgent.xaml.cs">
+      <DependentUpon>CreateAgent.xaml</DependentUpon>
     </Compile>
     <Compile Include="DBConnect.cs" />
     <Compile Include="OV\OVAgent.cs" />
@@ -87,7 +87,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CreateClient.xaml">
+    <Page Include="CreateAgent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

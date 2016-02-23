@@ -25,29 +25,34 @@ namespace GestionnaireBaseBTS
     /// </summary>
     public partial class MainWindow : Window
     {
+        public string Utilisateur = "Bonjour : " + Environment.UserName;
+
         private OVAgent ovAgent;
+        private OVClient ovClient;
         private MainWindow mainWindow;
 
-        private List<OVClient> lstSuiviClient = new List<OVClient>();
+        private List<OVClient> lstClient = new List<OVClient>();
         private List<OVSuiviClientAgent> lstSuiviClientAgent = new List<OVSuiviClientAgent>();
-
-        private OVClient dernierClientChoisi;
-
-        DispatcherTimer filtreTimer;
 
         DBConnect connect = new DBConnect();
 
         public MainWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            
             connect.openConnect();
 
-            InitialiserLesValeurs();
+            this.tbUtilisateur.Text = Utilisateur;
+            
+            AlimenterListeClient();
 
-            ChargerListClients();
+            lstSuiviClients.ItemsSource = lstClient;
+        }
 
+        private void AlimenterListeClient()
+        {
             //Ajout nouveaux clients : nom, rue, CP, ville, email, telephone, sql
-            String loadClient = "SELECT * FROM baseclient";
+            String loadClient = "SELECT NomClient, VilleClient, SQLClient FROM baseclient WHERE IdentifiantTypeBase = 1";
             MySqlCommand cmd = new MySqlCommand();
             cmd.CommandText = loadClient;
             MySqlDataAdapter ad = new MySqlDataAdapter();
@@ -55,50 +60,23 @@ namespace GestionnaireBaseBTS
             cmd.Connection = connect.con;
             DataSet ds = new DataSet();
             ad.Fill(ds);
-            lstSuiviClients.ItemsSource = ds.Tables[0].DefaultView;
-        }
+            foreach(DataRowView rowView in ds.Tables[0].DefaultView)
+            {
+                OVClient ovClient = new OVClient();
+                ovClient.NomClient = rowView["NomClient"].ToString();
+                ovClient.VilleClient = rowView["VilleClient"].ToString();
+                ovClient.SQLClient = rowView["SQLClient"].ToString();
 
-        private void InitialiserLesValeurs()
-        {
-            filtreTimer = new DispatcherTimer();
-            filtreTimer.Interval = new TimeSpan(0, 0, 0, 0, 250);
-            filtreTimer.Tick += filtretimer_Tick;
-        }
-
-        private void filtretimer_Tick(object sender, EventArgs e)
-        {
-            filtreTimer.Stop();
-            RafraichirListClient();
-        }
-
-        private void ChargerListClients(string vLike = "")
-        {
-            
-        }
-
-        private void RafraichirListClient()
-        {
-            lstSuiviClients.ItemsSource = null;
-            List<OVClient> listFiltre = new List<OVClient>();
-            listFiltre = txtFilter.Text != "" ? lstSuiviClient.FindAll(x => (x.NomClient.ToUpper().Contains(txtFilter.Text.ToUpper()))) : lstSuiviClient;
-            listFiltre = listFiltre.Where(x => x.OvTypeBase.NomTypeBase == "Production").ToList();
-            lstSuiviClients.ItemsSource = listFiltre;
-            if (listFiltre.Count > 0) { this.lstSuiviClients.SelectedIndex = 0; }
+                lstClient.Add(ovClient);
+            }
         }
 
         private void MenuAddClient_Click(object sender, RoutedEventArgs e)
         {
-            if ((MessageBox.Show("Êtes-vous sûr de vouloir créer un nouveau Client ?", "Warning ! Ajout d'un nouveau client", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes))
+            if ((MessageBox.Show("Êtes-vous sûr de vouloir créer un nouvelle agent ?", "Warning ! Ajout d'un nouvelle agent", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes))
             {
-                //Client client = new Client("", "", "", "", "", "", "");
-                //lstSuiviClients.Items.Add(client);
-
-                //On affiche la fenêtre de l'élément.
-                //CreateClient createClient = new CreateClient();
-
-                //createClient.DataContext = client;
-
-                //createClient.ShowDialog();
+                CreateAgent createAgent = new CreateAgent();
+                createAgent.ShowDialog();
             }
         }
 
@@ -116,8 +94,25 @@ namespace GestionnaireBaseBTS
 
         private void txtFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
-            filtreTimer.Stop();
-            filtreTimer.Start();
+            if (this.txtFilter.Text != "")
+            {
+                List<OVClient> listFiltre = new List<OVClient>();
+
+                listFiltre = this.txtFilter.Text != "" ? lstClient.Where(x => (x.NomClient.ToUpper().Contains(this.txtFilter.Text.ToUpper()))).ToList() : lstClient;
+            
+                ListCollectionView ClientGroupe = new ListCollectionView(listFiltre);
+            
+                this.lstSuiviClients.ItemsSource = ClientGroupe;
+            
+                if (this.lstSuiviClients.Items.Count > 0)
+                    this.lstSuiviClients.SelectedIndex = 0;
+            
+                this.lstSuiviClients.ItemsSource = ClientGroupe;
+            }
+            if (this.txtFilter.Text == "")
+            {
+                this.lstSuiviClients.ItemsSource = lstClient;
+            }
         }
     }
 }
