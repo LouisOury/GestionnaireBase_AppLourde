@@ -18,9 +18,9 @@ namespace GestionnaireBaseBTS.OV
         private string telephoneClient;
         private string sQLClient;
         private string dateCreationBase;
-        private int? idBaseOrigine;
-        private int? identifiantTypeBase;
-        private int? identifiantAgent;
+        private int idBaseOrigine;
+        private int identifiantTypeBase;
+        private int identifiantAgent;
 
         private OVAgent ovAgent = new OVAgent();
         private OVTypeBase ovTypeBase = new OVTypeBase();
@@ -37,11 +37,12 @@ namespace GestionnaireBaseBTS.OV
         public string TelephoneClient { get { return telephoneClient; } set { telephoneClient = value; } }
         public string SQLClient { get { return sQLClient; } set { sQLClient = value; } }
         public string DateCreationBase { get { return dateCreationBase; } set { dateCreationBase = value; } }
-        public int? IdBaseOrigine { get { return idBaseOrigine; } set { idBaseOrigine = value; } }
-        public int? IdentifiantTypeBase { get { return identifiantTypeBase; } set { identifiantTypeBase = value; } }
-        public int? IdentifiantAgent { get { return identifiantAgent; } set { identifiantAgent = value; } }
+        public int IdBaseOrigine { get { return idBaseOrigine; } set { idBaseOrigine = value; } }
+        public int IdentifiantTypeBase { get { return identifiantTypeBase; } set { identifiantTypeBase = value; } }
+        public int IdentifiantAgent { get { return identifiantAgent; } set { identifiantAgent = value; } }
 
         public OVTypeBase OvTypeBase { get { return ovTypeBase; } set { ovTypeBase = value; } }
+        public List<OVSuiviClientAgent> LstOvSuiviClientAgent { get { return lstOvSuiviClientAgent; } set { lstOvSuiviClientAgent = value; } }
         #endregion
     }
 }

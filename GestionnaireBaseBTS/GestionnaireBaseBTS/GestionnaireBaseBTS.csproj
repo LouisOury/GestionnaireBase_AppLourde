@@ -77,17 +77,27 @@
     <Compile Include="CreateAgent.xaml.cs">
       <DependentUpon>CreateAgent.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CreationBase.xaml.cs">
+      <DependentUpon>CreationBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CST\Enums.cs" />
     <Compile Include="DBConnect.cs" />
     <Compile Include="OV\OVAgent.cs" />
     <Compile Include="OV\OVClient.cs" />
+    <Compile Include="OV\OVCommandeRoutee.cs" />
     <Compile Include="OV\OVSuiviClientAgent.cs" />
     <Compile Include="OV\OVTypeBase.cs" />
     <Compile Include="Reservation.cs" />
+    <Compile Include="RG\RGEnums.cs" />
     <Page Include="Connexion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CreateAgent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreationBase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -179,6 +189,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Nodes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Exit.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

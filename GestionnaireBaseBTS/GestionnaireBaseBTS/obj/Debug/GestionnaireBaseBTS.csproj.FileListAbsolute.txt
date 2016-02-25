@@ -20,3 +20,5 @@ C:\Users\lo01.octave.OCTAVE\Documents\Cours\Projet BTS\GestionnaireBaseBTS\Gesti
 C:\Users\lo01.octave.OCTAVE\Documents\Cours\Projet BTS\GestionnaireBaseBTS\GestionnaireBaseBTS\bin\Debug\MySql.Data.dll
 C:\Users\lo01.octave.OCTAVE\Documents\Cours\Projet BTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\CreateAgent.g.cs
 C:\Users\lo01.octave.OCTAVE\Documents\Cours\Projet BTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\CreateAgent.baml
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\Projet BTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\CreationBase.g.cs
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\Projet BTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\CreationBase.baml

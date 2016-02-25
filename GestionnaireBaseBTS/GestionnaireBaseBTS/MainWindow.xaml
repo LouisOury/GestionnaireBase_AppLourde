@@ -132,7 +132,7 @@
             <!-- MENU -->
             <Menu>
                 <MenuItem Header="Fichier">
-                    <MenuItem Header="Ajouter Agent" Click="MenuAddClient_Click">
+                    <MenuItem Header="Ajouter Agent" Click="MenuAddAgent_Click">
                         <MenuItem.Icon>
                             <Image Source="Images/User-Add.png" />
                         </MenuItem.Icon>
@@ -160,7 +160,7 @@
                                         <TextBox.Resources>
                                             <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
                                                 <VisualBrush.Visual>
-                                                    <TextBlock FontStyle="Italic" Text="Rechercher un client"/>
+                                                    <TextBlock FontStyle="Italic" Text="Rechercher un client" />
                                                 </VisualBrush.Visual> 
                                             </VisualBrush>
                                         </TextBox.Resources>
@@ -183,7 +183,7 @@
                                 </Grid>
                             </DockPanel>
                             <Button x:Name="btnCreationBaseClt" DockPanel.Dock="Bottom" Content="Créer une nouvelle base Client" VerticalAlignment="Bottom" Height="25" Background="#A1A1A1" Visibility="Collapsed" />
-                            <ListView Foreground="#323232" Margin="5" BorderBrush="#EEEEEE" BorderThickness="1" x:Name="lstSuiviClients" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                            <ListView Foreground="#323232" Margin="5" BorderBrush="#EEEEEE" BorderThickness="1" x:Name="lstSuiviClients" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionChanged="lstSuiviClients_SelectionChanged">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <DockPanel Margin="10 5 0 5">
@@ -218,27 +218,25 @@
 
             <Border BorderThickness="1" BorderBrush="#C2C2C2" Grid.Column="1" Grid.Row="1" Margin="10,10,5,5">
                 <layoutToolkit:Accordion>
-
                     <!-- DEBUG -->
                     <layoutToolkit:AccordionItem x:Name="accordionDebug" Header="Bases Debug" FontFamily="Segoe UI">
                         <Border BorderThickness="0,1,0,0" BorderBrush="#C2C2C2">
                             <DockPanel Height="{Binding ElementName=spHeight, Path=ActualHeight}" Background="#C2C2C2">
                                 <DockPanel DockPanel.Dock="Top" Margin="10,10,10,10" >
                                     <StackPanel Orientation="Horizontal" Height="30" DockPanel.Dock="Top">
-                                        <Button ToolTip="Ajouter une base" Margin="0,2,2,2" BorderBrush="#C2C2C2" Background="#C2C2C2">
+                                        <Button x:Name="btnCreateBaseDebug" ToolTip="Ajouter une base" Margin="0,2,2,2" BorderBrush="#C2C2C2" Background="#C2C2C2" Click="btnCreateBaseDebug_Click" >
                                             <Image Source="Images/Data-Add.png" />
                                         </Button>
-                                        <Button ToolTip="Supprimer la base" Margin="2" BorderBrush="#C2C2C2" Background="#C2C2C2">
+                                        <Button ToolTip="Supprimer la base" Margin="2" BorderBrush="#C2C2C2" Background="#C2C2C2" Command="{Binding CommandeCreationBaseDebug}">
                                             <Image Source="Images/Data-Delete.png" />
                                         </Button>
                                     </StackPanel>
                                     <DataGrid x:Name="dgDebug" DockPanel.Dock="Top" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Width="*" Header="Base" Binding="{Binding NomBase, Mode=TwoWay}" />
-                                            <DataGridTextColumn Width="140" Header="Restauré le" Binding="{Binding DateRestauration, Mode=TwoWay}" />
-                                            <DataGridTextColumn Width="70" Header="Version" Binding="{Binding Version, Mode=TwoWay}" />
-                                            <DataGridTextColumn Width="*" Header="Créé par" Binding="{Binding AgentCreateur, Mode=TwoWay}" />
-                                            <DataGridTextColumn Width="*" Header="SQL" Binding="{Binding SQLBase, Mode=TwoWay}" />
+                                            <DataGridTextColumn Width="*" Header="Base" Binding="{Binding NomClient, Mode=TwoWay}" />
+                                            <DataGridTextColumn Width="140" Header="Création le" Binding="{Binding DateCreationBase, Mode=TwoWay, StringFormat=dd/MM/yyyy}" />
+                                            <DataGridTextColumn Width="*" Header="Créé par" Binding="{Binding ovSuiviClientAgent.PseudoAgent, Mode=TwoWay}" />
+                                            <DataGridTextColumn Width="*" Header="SQL" Binding="{Binding SQLClient, Mode=TwoWay}" />
                                             <DataGridTextColumn Foreground="Red" Width="*" Header="Date suppression" Binding="{Binding DateExpiration, Mode=TwoWay}" />
                                         </DataGrid.Columns>
                                     </DataGrid>
@@ -266,6 +264,99 @@
                                             </Button>
                                         </StackPanel>
                                         <DataGrid x:Name="dgReservationDebug" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="Agent" MinWidth="220" Binding="{Binding PseudoAgent}" IsReadOnly="True" />
+                                                <DataGridTemplateColumn Header="Fin de réservation" Width="120" >
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <DockPanel>
+                                                                <Button Height="18" DockPanel.Dock="Right" Background="White" BorderBrush="White">
+                                                                    <Image Source="Images/Command-Reset.png" />
+                                                                </Button>
+                                                                <TextBlock Text="{Binding DateExpiration, Mode=TwoWay}" VerticalAlignment="Center" Foreground="#333333" FontSize="11" />
+                                                            </DockPanel>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTextColumn Width="*" Header="Commentaire" Binding="{Binding Commentaire, Mode=TwoWay}">
+                                                    <DataGridTextColumn.CellStyle>
+                                                        <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                                                            <Style.Resources>
+                                                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                                                    <VisualBrush.Visual>
+                                                                        <Label Padding="5" Content="Merci de saisir un commentaire" FontSize="12" Foreground="#FFA4A4A4" />
+                                                                    </VisualBrush.Visual>
+                                                                </VisualBrush>
+                                                            </Style.Resources>
+
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Commentaire}" Value="">
+                                                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Commentaire}" Value="{x:Null}">
+                                                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                                </DataTrigger>
+                                                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                                                    <Setter Property="Background" Value="White" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </DataGridTextColumn.CellStyle>
+                                                </DataGridTextColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </DockPanel>
+                                </Border>
+                            </DockPanel>
+                        </Border>
+                    </layoutToolkit:AccordionItem>
+
+                    <!-- RECETTE -->
+                    <layoutToolkit:AccordionItem x:Name="accordionRecette" Header="Bases Recette" FontFamily="Segoe UI">
+                        <Border BorderThickness="0,1,0,0" BorderBrush="#C2C2C2">
+                            <DockPanel Height="{Binding ElementName=spHeight, Path=ActualHeight}" Background="#C2C2C2">
+                                <DockPanel DockPanel.Dock="Top" Margin="10,10,10,10" >
+                                    <StackPanel Orientation="Horizontal" Height="30" DockPanel.Dock="Top">
+                                        <Button ToolTip="Ajouter une base" Margin="0,2,2,2" BorderBrush="#C2C2C2" Background="#C2C2C2">
+                                            <Image Source="Images/Data-Add.png" />
+                                        </Button>
+                                        <Button ToolTip="Supprimer la base" Margin="2" BorderBrush="#C2C2C2" Background="#C2C2C2">
+                                            <Image Source="Images/Data-Delete.png" />
+                                        </Button>
+                                    </StackPanel>
+                                    <DataGrid x:Name="dgRecette" DockPanel.Dock="Top" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Width="*" Header="Base" Binding="{Binding NomClient, Mode=TwoWay}" />
+                                            <DataGridTextColumn Width="140" Header="Création le" Binding="{Binding DateCreationBase, Mode=TwoWay, StringFormat=dd/MM/yyyy}" />
+                                            <DataGridTextColumn Width="*" Header="Créé par" Binding="{Binding PseudoAgent, Mode=TwoWay}" />
+                                            <DataGridTextColumn Width="*" Header="SQL" Binding="{Binding SQLClient, Mode=TwoWay}" />
+                                            <DataGridTextColumn Foreground="Red" Width="*" Header="Date suppression" Binding="{Binding DateExpiration, Mode=TwoWay}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </DockPanel>
+
+                                <Border Margin="10" Padding="10" BorderThickness="1" BorderBrush="#E4E4E4" Background="#F2F2F2">
+                                    <Border.Style>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=dgRecette, Path=SelectedItem}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <DockPanel Background="WhiteSmoke">
+                                        <TextBlock DockPanel.Dock="Top" Text="Réservations" FontSize="16" FontWeight="Light" Foreground="#4B4B4B" Margin="0,0,0,10" />
+
+                                        <StackPanel Orientation="Horizontal" Height="30" DockPanel.Dock="Top">
+                                            <Button ToolTip="Ajouter une réservation" Margin="0,2,2,2" Background="WhiteSmoke" BorderBrush="WhiteSmoke">
+                                                <Image Source="Images/Bookmark-Add.png" />
+                                            </Button>
+                                            <Button ToolTip="Supprimer la réservation" Margin="2" Background="WhiteSmoke" BorderBrush="WhiteSmoke">
+                                                <Image Source="Images/Bookmark-Delete.png" />
+                                            </Button>
+                                        </StackPanel>
+                                        <DataGrid x:Name="dgReservationRecette" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top">
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="Agent" MinWidth="220" Binding="{Binding NomAgent}" IsReadOnly="True" />
                                                 <DataGridTemplateColumn Header="Fin de réservation" Width="120" >
@@ -313,17 +404,99 @@
                         </Border>
                     </layoutToolkit:AccordionItem>
 
-                    <!-- RECETTE -->
-                    <layoutToolkit:AccordionItem x:Name="accordionRecette" Header="Bases Recette" FontFamily="Segoe UI">
-
-                    </layoutToolkit:AccordionItem>
-
                     <!-- FORMATION -->
                     <layoutToolkit:AccordionItem x:Name="accordionFormation" Header="Bases Formation" FontFamily="Segoe UI" >
+                        <Border BorderThickness="0,1,0,0" BorderBrush="#C2C2C2">
+                            <DockPanel Height="{Binding ElementName=spHeight, Path=ActualHeight}" Background="#C2C2C2">
+                                <DockPanel DockPanel.Dock="Top" Margin="10,10,10,10" >
+                                    <StackPanel Orientation="Horizontal" Height="30" DockPanel.Dock="Top">
+                                        <Button ToolTip="Ajouter une base" Margin="0,2,2,2" BorderBrush="#C2C2C2" Background="#C2C2C2">
+                                            <Image Source="Images/Data-Add.png" />
+                                        </Button>
+                                        <Button ToolTip="Supprimer la base" Margin="2" BorderBrush="#C2C2C2" Background="#C2C2C2">
+                                            <Image Source="Images/Data-Delete.png" />
+                                        </Button>
+                                    </StackPanel>
+                                    <DataGrid x:Name="dgFormation" DockPanel.Dock="Top" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Width="*" Header="Base" Binding="{Binding NomClient, Mode=TwoWay}" />
+                                            <DataGridTextColumn Width="140" Header="Création le" Binding="{Binding DateCreationBase, Mode=TwoWay, StringFormat=dd/MM/yyyy}" />
+                                            <DataGridTextColumn Width="*" Header="Créé par" Binding="{Binding PseudoAgent, Mode=TwoWay}" />
+                                            <DataGridTextColumn Width="*" Header="SQL" Binding="{Binding SQLClient, Mode=TwoWay}" />
+                                            <DataGridTextColumn Foreground="Red" Width="*" Header="Date suppression" Binding="{Binding DateExpiration, Mode=TwoWay}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </DockPanel>
 
+                                <Border Margin="10" Padding="10" BorderThickness="1" BorderBrush="#E4E4E4" Background="#F2F2F2">
+                                    <Border.Style>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=dgFormation, Path=SelectedItem}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <DockPanel Background="WhiteSmoke">
+                                        <TextBlock DockPanel.Dock="Top" Text="Réservations" FontSize="16" FontWeight="Light" Foreground="#4B4B4B" Margin="0,0,0,10" />
+
+                                        <StackPanel Orientation="Horizontal" Height="30" DockPanel.Dock="Top">
+                                            <Button ToolTip="Ajouter une réservation" Margin="0,2,2,2" Background="WhiteSmoke" BorderBrush="WhiteSmoke">
+                                                <Image Source="Images/Bookmark-Add.png" />
+                                            </Button>
+                                            <Button ToolTip="Supprimer la réservation" Margin="2" Background="WhiteSmoke" BorderBrush="WhiteSmoke">
+                                                <Image Source="Images/Bookmark-Delete.png" />
+                                            </Button>
+                                        </StackPanel>
+                                        <DataGrid x:Name="dgReservationFormation" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="Agent" MinWidth="220" Binding="{Binding NomAgent}" IsReadOnly="True" />
+                                                <DataGridTemplateColumn Header="Fin de réservation" Width="120" >
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <DockPanel>
+                                                                <Button Height="18" DockPanel.Dock="Right" Background="White" BorderBrush="White">
+                                                                    <Image Source="Images/Command-Reset.png" />
+                                                                </Button>
+                                                                <TextBlock Text="{Binding FinReservation, Mode=TwoWay}" VerticalAlignment="Center" Foreground="#333333" FontSize="11" />
+                                                            </DockPanel>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTextColumn Width="*" Header="Commentaire" Binding="{Binding Commentaire, Mode=TwoWay}">
+                                                    <DataGridTextColumn.CellStyle>
+                                                        <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                                                            <Style.Resources>
+                                                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                                                    <VisualBrush.Visual>
+                                                                        <Label Padding="5" Content="Merci de saisir un commentaire" FontSize="12" Foreground="#FFA4A4A4" />
+                                                                    </VisualBrush.Visual>
+                                                                </VisualBrush>
+                                                            </Style.Resources>
+
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Commentaire}" Value="">
+                                                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Commentaire}" Value="{x:Null}">
+                                                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                                </DataTrigger>
+                                                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                                                    <Setter Property="Background" Value="White" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </DataGridTextColumn.CellStyle>
+                                                </DataGridTextColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </DockPanel>
+                                </Border>
+                            </DockPanel>
+                        </Border>
                     </layoutToolkit:AccordionItem>
                 </layoutToolkit:Accordion>
-
             </Border>
         </Grid>
         

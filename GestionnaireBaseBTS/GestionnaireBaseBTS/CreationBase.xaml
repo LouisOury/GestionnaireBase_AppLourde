@@ -1,0 +1,147 @@
+﻿<Window x:Class="GestionnaireBaseBTS.CreationBase"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestionnaireBaseBTS"
+        mc:Ignorable="d"
+        Title="Création d'une nouvelle base" Height="550" Width="700"
+        BorderThickness="1" BorderBrush="Black" Icon="Images/Data-Add.png">
+    <Grid>
+        <!-- MENU -->
+        <Menu>
+            <MenuItem Header="Fichier">
+                <MenuItem Header="Quitter" Click="MenuItem_Click">
+                    <MenuItem.Icon>
+                        <Image Source="Images/Exit.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        
+        <DockPanel>
+            <Separator DockPanel.Dock="Top" Margin="0 20 0 0" />
+            <TextBlock Text="Nature base" DockPanel.Dock="Top" FontSize="14" Padding="5" Background="#E5E5E5" Margin="0 0 0 10" />
+            <!-- Zone Type Base -->
+            <Grid x:Name="gdTypeBase" VerticalAlignment="Top" DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*" />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblTypeBase" Content="Type de base :" VerticalAlignment="Center" Margin="20,10,4,4" />
+                <ComboBox x:Name="cbTypeBase" Grid.Column="1" Margin="4,14,4,4" />
+            </Grid>
+            <!-- Zone Base Modele -->
+            <Separator DockPanel.Dock="Top" Margin="0 10 0 0" />
+            <TextBlock Text="Base modèle" DockPanel.Dock="Top" FontSize="14" Padding="5" Background="#E5E5E5" Margin="0 0 0 10" />
+            <Grid VerticalAlignment="Top" DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*" />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Label x:Name="lblSave" Content="Sauvegarde :" Grid.Row="1" VerticalAlignment="Center" Margin="20,0,0,0" />
+                <ComboBox x:Name="cbSave" Grid.Row="1" Grid.Column="1" Margin="4" />
+            </Grid>
+            <!-- Zone Base créé -->
+            <Separator DockPanel.Dock="Top" Margin="0 10 0 0" />
+            <TextBlock Text="Base créée" DockPanel.Dock="Top" FontSize="14" Padding="5" Background="#E5E5E5" Margin="0 0 0 10" />
+            <Grid VerticalAlignment="Top" DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*" />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Label Content="Nom :" Grid.Row="1" VerticalAlignment="Center" Margin="20,0,0,0" />
+                <Label Content="Octave_" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                <TextBox x:Name="tbNomOctave" Grid.Row="1" Grid.Column="1" Margin="4" IsEnabled="False" />
+                <Label Grid.Row="1" Grid.Column="2" Content="" FontSize="11" VerticalAlignment="Center" Margin="10,0,0,0" />
+                <Label Content="SQL :" Grid.Row="2" VerticalAlignment="Center" Margin="20,0,0,0" />
+                <ComboBox x:Name="cbNomSQL" Grid.Row="2" Grid.Column="1" Margin="4" />
+            </Grid>
+            <DockPanel DockPanel.Dock="Top" Visibility="Visible">
+                <Separator Margin="0 10 0 0" DockPanel.Dock="Top" />
+                <TextBlock x:Name="tbAgent" Text="Agents" Padding="5" DockPanel.Dock="Top" FontSize="14" Background="#E5E5E5" Margin="0 0 0 10" />
+                <Grid x:Name="gdAgent" VerticalAlignment="Top" DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Content="Envoyer un mail de synthèse à :" Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="20,0,0,0" />
+                    <TextBox x:Name="tbMail" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="4" Width="300" HorizontalAlignment="Left" >
+                        <TextBox.Resources>
+                            <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                <VisualBrush.Visual>
+                                    <TextBlock FontStyle="Italic" Text="Saisir une adresse mail"/>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </TextBox.Resources>
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="{x:Null}">
+                                        <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                </Grid>
+            </DockPanel>
+            <Separator DockPanel.Dock="Top" Margin="0 10 0 0" />
+            <TextBlock Text="Informations création" DockPanel.Dock="Top" FontSize="14" Padding="5" Background="#E5E5E5" Margin="0 0 0 10" />
+            <Grid  VerticalAlignment="Top" DockPanel.Dock="Top">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Label x:Name="lblTailleBase" Content="Taille Base :" VerticalAlignment="Center" Margin="20,0,0,0" />
+                    <TextBlock x:Name="tbTailleBase" Grid.Column="1" Width="80" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4" />
+                    <Label Grid.Column="1" Width="50" HorizontalAlignment="center" Content="Mo" Margin="-80,0,0,0" />
+                    <Label x:Name="lblTailleSQL" Grid.Row="1" Content="Espace disponible :" VerticalAlignment="Center" Margin="20,0,0,0" />
+                    <TextBlock x:Name="tbTailleSQL" Grid.Row="1" Grid.Column="1" Width="80" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4" />
+                    <Label Grid.Row="1" Grid.Column="1" Width="50" HorizontalAlignment="center" Content="Mo" Margin="-80,0,0,0" />
+                    <Label x:Name="lblAlerteTaille" Grid.Row="3" Grid.ColumnSpan="3"  Margin="20,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Espace insuffisant pour la création de la base !" Foreground="Red" FontSize="14" Visibility="Collapsed" />
+                </Grid>
+                <Grid Visibility="Collapsed" Background="White" Opacity="0.6" x:Name="loadGrid2">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Chargement des tailles..." Margin="25"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <Button x:Name="btnCreerBase" Content="Créer la base" DockPanel.Dock="Bottom" Margin="5" Width="180" Height="28" Background="#519627" Foreground="White" />
+        </DockPanel>
+        <Grid Visibility="Collapsed" Background="White" Opacity="0.6" x:Name="loadGrid">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock x:Name="txChargement" Margin="25"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
