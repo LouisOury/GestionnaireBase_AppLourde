@@ -35,7 +35,7 @@ namespace GestionnaireBaseBTS
             if (con != null && con.State == ConnectionState.Closed)
             {
                 con.Open();
-                //MessageBox.Show("Connexion réussie !");
+                //MessageBox.Show("Connexion BDD réussie !");
             }
         }
 
@@ -44,6 +44,7 @@ namespace GestionnaireBaseBTS
             if (con != null && con.State == ConnectionState.Open)
             {
                 con.Close();
+                //MessageBox.Show("Déconnexion BDD réussi");
             }
         }
     }

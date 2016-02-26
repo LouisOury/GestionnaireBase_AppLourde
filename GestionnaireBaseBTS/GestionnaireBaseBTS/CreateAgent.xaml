@@ -5,15 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GestionnaireBaseBTS"
         mc:Ignorable="d" Background="#BEBEBE"
-        Title="Création agent" Height="300" Width="300" Icon="Images/User-Profile.png"> 
+        Title="Création agent" Height="300" Width="500" Icon="Images/User-Profile.png" ResizeMode="NoResize"
+        > 
     <Grid Background="#BEBEBE" Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -42,5 +43,27 @@
                 <Image Source="Images/Arrowhead-Right-01.png" Width="10" Margin="10,0,0,0" />
             </StackPanel>
         </Button>
+
+        <TextBlock Text="Listes des agents :" Grid.Column="2" Margin="5,0,0,0" Foreground="#FF0F6A99" />
+        <ListView x:Name="lstAgents" Grid.Column="2" Grid.RowSpan="6" Margin="5,20,5,5" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel Margin="10 5 0 5">
+                        <DockPanel DockPanel.Dock="Top">
+                            <TextBlock DockPanel.Dock="Left" Text="{Binding CiviliteAgent}" FontSize="14" TextTrimming="CharacterEllipsis" FontWeight="DemiBold" />
+                            <TextBlock Text=" " />
+                            <TextBlock DockPanel.Dock="Left" Text="{Binding PrenomAgent}" FontSize="14" TextTrimming="CharacterEllipsis" FontWeight="DemiBold" />
+                            <TextBlock Text=" " />
+                            <TextBlock DockPanel.Dock="Left" Text="{Binding NomAgent}" FontSize="14" TextTrimming="CharacterEllipsis" FontWeight="DemiBold" />
+                        </DockPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding PseudoAgent}" Foreground="#FF777777" />
+                            <TextBlock Text=" - " Foreground="#FF777777" />
+                            <TextBlock Text="{Binding EmailAgent}" Foreground="#FF777777" />
+                        </StackPanel>
+                    </DockPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Window>

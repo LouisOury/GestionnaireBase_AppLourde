@@ -17,7 +17,7 @@ namespace GestionnaireBaseBTS.OV
         private string emailClient;
         private string telephoneClient;
         private string sQLClient;
-        private string dateCreationBase;
+        private DateTime dateCreationBase;
         private int idBaseOrigine;
         private int identifiantTypeBase;
         private int identifiantAgent;
@@ -36,12 +36,13 @@ namespace GestionnaireBaseBTS.OV
         public string EmailClient { get { return emailClient; } set { emailClient = value; } }
         public string TelephoneClient { get { return telephoneClient; } set { telephoneClient = value; } }
         public string SQLClient { get { return sQLClient; } set { sQLClient = value; } }
-        public string DateCreationBase { get { return dateCreationBase; } set { dateCreationBase = value; } }
+        public DateTime DateCreationBase { get { return dateCreationBase; } set { dateCreationBase = value; } }
         public int IdBaseOrigine { get { return idBaseOrigine; } set { idBaseOrigine = value; } }
         public int IdentifiantTypeBase { get { return identifiantTypeBase; } set { identifiantTypeBase = value; } }
         public int IdentifiantAgent { get { return identifiantAgent; } set { identifiantAgent = value; } }
 
         public OVTypeBase OvTypeBase { get { return ovTypeBase; } set { ovTypeBase = value; } }
+        public OVAgent OvAgent { get { return ovAgent; } set { ovAgent = value; } }
         public List<OVSuiviClientAgent> LstOvSuiviClientAgent { get { return lstOvSuiviClientAgent; } set { lstOvSuiviClientAgent = value; } }
         #endregion
     }

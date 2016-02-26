@@ -1,6 +1,8 @@
-﻿using MySql.Data.MySqlClient;
+﻿using GestionnaireBaseBTS.OV;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +22,17 @@ namespace GestionnaireBaseBTS
     /// </summary>
     public partial class CreateAgent : Window
     {
+        DBConnect connect = new DBConnect();
+
+        private List<OVAgent> lstAgent = new List<OVAgent>();
+
         public CreateAgent()
         {
             InitializeComponent();
+
+            AlimenterListeAgent();
+
+            lstAgents.ItemsSource = lstAgent;
         }
 
         private void btnValider_Click(object sender, RoutedEventArgs e)
@@ -42,6 +52,31 @@ namespace GestionnaireBaseBTS
             catch (MySqlException ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void AlimenterListeAgent()
+        {
+            String loadClient = "SELECT IdentifiantAgent, NomAgent, PrenomAgent, PseudoAgent, CiviliteAgent, EmailAgent FROM agent";
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.CommandText = loadClient;
+            MySqlDataAdapter ad = new MySqlDataAdapter();
+            ad.SelectCommand = cmd;
+            cmd.Connection = connect.con;
+            DataSet ds = new DataSet();
+            ad.Fill(ds);
+            foreach (DataRowView rowView in ds.Tables[0].DefaultView)
+            {
+                OVAgent ovAgent = new OVAgent();
+
+                ovAgent.IdentifiantAgent = int.Parse(rowView["IdentifiantAgent"].ToString());
+                ovAgent.NomAgent = rowView["NomAgent"].ToString();
+                ovAgent.PrenomAgent = rowView["PrenomAgent"].ToString();
+                ovAgent.PseudoAgent = rowView["PseudoAgent"].ToString();
+                ovAgent.CiviliteAgent = rowView["CiviliteAgent"].ToString();
+                ovAgent.EmailAgent = rowView["EmailAgent"].ToString();
+
+                lstAgent.Add(ovAgent);
             }
         }
     }

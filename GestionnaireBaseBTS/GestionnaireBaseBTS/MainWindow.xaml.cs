@@ -59,8 +59,7 @@ namespace GestionnaireBaseBTS
 
         private void AlimenterListeClient()
         {
-            //Ajout nouveaux clients : nom, rue, CP, ville, email, telephone, sql
-            String loadClient = "SELECT IdentifiantClient, NomClient, VilleClient, SQLClient, DateCreationBase, IdBaseOrigine, IdentifiantTypeBase FROM baseclient";
+            String loadClient = "SELECT IdentifiantClient, NomClient, VilleClient, SQLClient, DateCreationBase, IdBaseOrigine, IdentifiantTypeBase, agent.IdentifiantAgent, PseudoAgent FROM baseclient INNER JOIN agent ON baseclient.IdentifiantAgent = agent.IdentifiantAgent";
             MySqlCommand cmd = new MySqlCommand();
             cmd.CommandText = loadClient;
             MySqlDataAdapter ad = new MySqlDataAdapter();
@@ -76,9 +75,11 @@ namespace GestionnaireBaseBTS
                 ovClient.NomClient = rowView["NomClient"].ToString();
                 ovClient.VilleClient = rowView["VilleClient"].ToString();
                 ovClient.SQLClient = rowView["SQLClient"].ToString();
-                ovClient.DateCreationBase = rowView["DateCreationBase"].ToString();
+                ovClient.DateCreationBase = Convert.ToDateTime(rowView["DateCreationBase"].ToString());
                 ovClient.IdBaseOrigine = int.Parse(rowView["IdBaseOrigine"].ToString());
                 ovClient.IdentifiantTypeBase = int.Parse(rowView["IdentifiantTypeBase"].ToString());
+
+                ovClient.OvAgent.PseudoAgent = rowView["PseudoAgent"].ToString();
 
                 lstClient.Add(ovClient);
             }
@@ -147,6 +148,13 @@ namespace GestionnaireBaseBTS
             connexion.Show();
         }
 
+        //Bouton Quitter (avec deconnexion BDD)
+        private void MenuQuitter_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            connect.closeConnect();
+        }
+
         //Bouton vider textbox
         private void btnEmptyTxtbox_Click(object sender, RoutedEventArgs e)
         {
@@ -189,14 +197,21 @@ namespace GestionnaireBaseBTS
         {
             if (lstSuiviClients.SelectedItem != null)
             {
+                //Base DEBUG
                 List<OVClient> lstBaseDebug = new List<OVClient>();
                 lstBaseDebug = lstClient.Where(x => x.IdBaseOrigine == ((OVClient)lstSuiviClients.SelectedItem).IdentifiantClient && (x.IdentifiantTypeBase == 4)).ToList<OVClient>();
+                lstBaseDebug = lstBaseDebug.Select(x => { x.LstOvSuiviClientAgent = (this.lstSuiviClientAgent.Where(y => y.IdentifiantClient == x.IdentifiantClient)).ToList(); return x; }).ToList();
 
+                //Base RECETTE
                 List<OVClient> lstBaseRecette = new List<OVClient>();
                 lstBaseRecette = lstClient.Where(x => x.IdBaseOrigine == ((OVClient)lstSuiviClients.SelectedItem).IdentifiantClient && (x.IdentifiantTypeBase == 3)).ToList<OVClient>();
+                lstBaseRecette = lstBaseRecette.Select(x => { x.LstOvSuiviClientAgent = (this.lstSuiviClientAgent.Where(y => y.IdentifiantClient == x.IdentifiantClient)).ToList(); return x; }).ToList();
 
+
+                //Base FORMATION
                 List<OVClient> lstBaseFormation = new List<OVClient>();
                 lstBaseFormation = lstClient.Where(x => x.IdBaseOrigine == ((OVClient)lstSuiviClients.SelectedItem).IdentifiantClient && (x.IdentifiantTypeBase == 2)).ToList<OVClient>();
+                lstBaseFormation = lstBaseFormation.Select(x => { x.LstOvSuiviClientAgent = (this.lstSuiviClientAgent.Where(y => y.IdentifiantClient == x.IdentifiantClient)).ToList(); return x; }).ToList();
 
                 dgDebug.ItemsSource = null;
                 dgFormation.ItemsSource = null;
@@ -222,6 +237,24 @@ namespace GestionnaireBaseBTS
                 dgReservationDebug.ItemsSource = ovBase.LstOvSuiviClientAgent;
             }
         }
+        private void dgRecette_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgRecette.SelectedItem != null)
+            {
+                OVClient ovBase = (OVClient)dgRecette.SelectedItem;
+
+                dgReservationRecette.ItemsSource = ovBase.LstOvSuiviClientAgent;
+            }
+        }
+        private void dgFormation_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgFormation.SelectedItem != null)
+            {
+                OVClient ovBase = (OVClient)dgFormation.SelectedItem;
+
+                dgReservationFormation.ItemsSource = ovBase.LstOvSuiviClientAgent;
+            }
+        }
         #endregion
 
         #region EventsCommandes
@@ -229,6 +262,8 @@ namespace GestionnaireBaseBTS
         {
             //DataGrid
             dgDebug.SelectionChanged += dgDebug_SelectionChanged;
+            dgRecette.SelectionChanged += dgRecette_SelectionChanged;
+            dgFormation.SelectionChanged += dgFormation_SelectionChanged;
 
             //DataGrid Selection
             CreerCommandeCreationBaseDebug();

@@ -143,16 +143,19 @@
                             <Image Source="Images/lock.png" />
                         </MenuItem.Icon>
                     </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Quitter" Click="MenuQuitter_Click" >
+                        <MenuItem.Icon>
+                            <Image Source="Images/Exit.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
             </Menu>
 
             <DockPanel x:Name="dgListeBases" Grid.Column="0" Grid.Row="1">
-                <!--<fgi:ocBouton x:Name="btnNettoyer" Grid.Row="1" Margin="5"  ocText="Nettoyer" ocBoutonStyle="GrisClair1" />-->
-
                 <TabControl x:Name="tcListeBases" Margin="5" Grid.Column="0" Grid.Row="0">
                     <TabItem x:Name="tiListeBasesClient" Header="Client">
                         <DockPanel Background="White">
-                            <!--<Button x:Name="btnNettoyer" DockPanel.Dock="Bottom" Height="30" Content="Nettoyer les bases expirées" Foreground="#333333" FontFamily="Segoe UI" Background="#F2F2F2" BorderThickness="1" BorderBrush="#BFBFBF" Margin="5" Grid.Row="1" />-->
                             <DockPanel DockPanel.Dock="Top" Margin="5">
                                 <Grid>
                                     <StackPanel Background="#f1f0f0" />
@@ -234,10 +237,9 @@
                                     <DataGrid x:Name="dgDebug" DockPanel.Dock="Top" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Width="*" Header="Base" Binding="{Binding NomClient, Mode=TwoWay}" />
-                                            <DataGridTextColumn Width="140" Header="Création le" Binding="{Binding DateCreationBase, Mode=TwoWay, StringFormat=dd/MM/yyyy}" />
-                                            <DataGridTextColumn Width="*" Header="Créé par" Binding="{Binding ovSuiviClientAgent.PseudoAgent, Mode=TwoWay}" />
+                                            <DataGridTextColumn Width="*" Header="Création le" Binding="{Binding DateCreationBase, Mode=TwoWay, StringFormat=dd/MM/yyyy }" />
+                                            <DataGridTextColumn Width="*" Header="Créé par" Binding="{Binding OvAgent.PseudoAgent, Mode=TwoWay}" />
                                             <DataGridTextColumn Width="*" Header="SQL" Binding="{Binding SQLClient, Mode=TwoWay}" />
-                                            <DataGridTextColumn Foreground="Red" Width="*" Header="Date suppression" Binding="{Binding DateExpiration, Mode=TwoWay}" />
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </DockPanel>
@@ -265,15 +267,15 @@
                                         </StackPanel>
                                         <DataGrid x:Name="dgReservationDebug" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top">
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="Agent" MinWidth="220" Binding="{Binding PseudoAgent}" IsReadOnly="True" />
-                                                <DataGridTemplateColumn Header="Fin de réservation" Width="120" >
+                                                <DataGridTextColumn Header="Agent" MinWidth="150" Binding="{Binding OvAgent.PseudoAgent}" IsReadOnly="True" />
+                                                <DataGridTemplateColumn Header="Fin de réservation" MinWidth="150" >
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <DockPanel>
                                                                 <Button Height="18" DockPanel.Dock="Right" Background="White" BorderBrush="White">
                                                                     <Image Source="Images/Command-Reset.png" />
                                                                 </Button>
-                                                                <TextBlock Text="{Binding DateExpiration, Mode=TwoWay}" VerticalAlignment="Center" Foreground="#333333" FontSize="11" />
+                                                                <TextBlock Text="{Binding DateExpiration, Mode=TwoWay, StringFormat=dd/MM/yyyy}" VerticalAlignment="Center" Foreground="#333333" FontSize="11" />
                                                             </DockPanel>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
@@ -327,10 +329,9 @@
                                     <DataGrid x:Name="dgRecette" DockPanel.Dock="Top" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Width="*" Header="Base" Binding="{Binding NomClient, Mode=TwoWay}" />
-                                            <DataGridTextColumn Width="140" Header="Création le" Binding="{Binding DateCreationBase, Mode=TwoWay, StringFormat=dd/MM/yyyy}" />
-                                            <DataGridTextColumn Width="*" Header="Créé par" Binding="{Binding PseudoAgent, Mode=TwoWay}" />
+                                            <DataGridTextColumn Width="*" Header="Création le" Binding="{Binding DateCreationBase, Mode=TwoWay, StringFormat=dd/MM/yyyy}" />
+                                            <DataGridTextColumn Width="*" Header="Créé par" Binding="{Binding OvAgent.PseudoAgent, Mode=TwoWay}" />
                                             <DataGridTextColumn Width="*" Header="SQL" Binding="{Binding SQLClient, Mode=TwoWay}" />
-                                            <DataGridTextColumn Foreground="Red" Width="*" Header="Date suppression" Binding="{Binding DateExpiration, Mode=TwoWay}" />
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </DockPanel>
@@ -358,7 +359,7 @@
                                         </StackPanel>
                                         <DataGrid x:Name="dgReservationRecette" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top">
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="Agent" MinWidth="220" Binding="{Binding NomAgent}" IsReadOnly="True" />
+                                                <DataGridTextColumn Header="Agent" MinWidth="220" Binding="{Binding OvAgent.PseudoAgent}" IsReadOnly="True" />
                                                 <DataGridTemplateColumn Header="Fin de réservation" Width="120" >
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
@@ -366,7 +367,7 @@
                                                                 <Button Height="18" DockPanel.Dock="Right" Background="White" BorderBrush="White">
                                                                     <Image Source="Images/Command-Reset.png" />
                                                                 </Button>
-                                                                <TextBlock Text="{Binding FinReservation, Mode=TwoWay}" VerticalAlignment="Center" Foreground="#333333" FontSize="11" />
+                                                                <TextBlock Text="{Binding DateExpiration, Mode=TwoWay, StringFormat=dd/MM/yyyy}" VerticalAlignment="Center" Foreground="#333333" FontSize="11" />
                                                             </DockPanel>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
@@ -420,10 +421,9 @@
                                     <DataGrid x:Name="dgFormation" DockPanel.Dock="Top" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Width="*" Header="Base" Binding="{Binding NomClient, Mode=TwoWay}" />
-                                            <DataGridTextColumn Width="140" Header="Création le" Binding="{Binding DateCreationBase, Mode=TwoWay, StringFormat=dd/MM/yyyy}" />
-                                            <DataGridTextColumn Width="*" Header="Créé par" Binding="{Binding PseudoAgent, Mode=TwoWay}" />
+                                            <DataGridTextColumn Width="*" Header="Création le" Binding="{Binding DateCreationBase, Mode=TwoWay, StringFormat=dd/MM/yyyy}" />
+                                            <DataGridTextColumn Width="*" Header="Créé par" Binding="{Binding OvAgent.PseudoAgent, Mode=TwoWay}" />
                                             <DataGridTextColumn Width="*" Header="SQL" Binding="{Binding SQLClient, Mode=TwoWay}" />
-                                            <DataGridTextColumn Foreground="Red" Width="*" Header="Date suppression" Binding="{Binding DateExpiration, Mode=TwoWay}" />
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </DockPanel>
@@ -451,7 +451,7 @@
                                         </StackPanel>
                                         <DataGrid x:Name="dgReservationFormation" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top">
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="Agent" MinWidth="220" Binding="{Binding NomAgent}" IsReadOnly="True" />
+                                                <DataGridTextColumn Header="Agent" MinWidth="220" Binding="{Binding OvAgent.PseudoAgent}" IsReadOnly="True" />
                                                 <DataGridTemplateColumn Header="Fin de réservation" Width="120" >
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
@@ -459,7 +459,7 @@
                                                                 <Button Height="18" DockPanel.Dock="Right" Background="White" BorderBrush="White">
                                                                     <Image Source="Images/Command-Reset.png" />
                                                                 </Button>
-                                                                <TextBlock Text="{Binding FinReservation, Mode=TwoWay}" VerticalAlignment="Center" Foreground="#333333" FontSize="11" />
+                                                                <TextBlock Text="{Binding DateExpiration, Mode=TwoWay, StringFormat=dd/MM/yyyy}" VerticalAlignment="Center" Foreground="#333333" FontSize="11" />
                                                             </DockPanel>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
