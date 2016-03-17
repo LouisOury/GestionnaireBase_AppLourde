@@ -13,14 +13,8 @@ namespace GestionnaireBaseBTS.CST
 
     public enum EnumNameSQL
     {
-        [Description("SQL99-01")]
-        SQL9901,
-
-        [Description("SQL89-04")]
-        SQL8904,
-
-        [Description("SQL99-04")]
-        SQL9904
+        [Description("localhost")]
+        localhost,
     }
 
     public enum EnumTypeBase
@@ -32,7 +26,7 @@ namespace GestionnaireBaseBTS.CST
         Client_Formation = 2,
 
         [Description("Recette")]
-        Client_Recette_Maj = 3,        
+        Client_Recette = 3,        
 
         [Description("Debug")]
         Client_Debug = 4

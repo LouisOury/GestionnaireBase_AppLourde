@@ -32,7 +32,6 @@ namespace GestionnaireBaseBTS
 
         private OVAgent ovAgent;
         private OVClient ovClient;
-        private MainWindow mainWindow;
 
         private List<OVClient> lstClient = new List<OVClient>();
         private List<OVSuiviClientAgent> lstSuiviClientAgent = new List<OVSuiviClientAgent>();
@@ -59,7 +58,7 @@ namespace GestionnaireBaseBTS
 
         private void AlimenterListeClient()
         {
-            String loadClient = "SELECT IdentifiantClient, NomClient, VilleClient, SQLClient, DateCreationBase, IdBaseOrigine, IdentifiantTypeBase, agent.IdentifiantAgent, PseudoAgent FROM baseclient INNER JOIN agent ON baseclient.IdentifiantAgent = agent.IdentifiantAgent";
+            String loadClient = "SELECT IdentifiantClient, NomClient, RueClient, CPClient, VilleClient, EmailClient, TelephoneClient, SQLClient, DateCreationBase, IdBaseOrigine, IdentifiantTypeBase, baseclient.IdentifiantAgent, PseudoAgent FROM baseclient INNER JOIN agent ON baseclient.IdentifiantAgent = agent.IdentifiantAgent";
             MySqlCommand cmd = new MySqlCommand();
             cmd.CommandText = loadClient;
             MySqlDataAdapter ad = new MySqlDataAdapter();
@@ -73,11 +72,16 @@ namespace GestionnaireBaseBTS
 
                 ovClient.IdentifiantClient = int.Parse(rowView["IdentifiantClient"].ToString());
                 ovClient.NomClient = rowView["NomClient"].ToString();
+                ovClient.RueClient = rowView["RueClient"].ToString();
+                ovClient.CPClient = rowView["CPClient"].ToString();
                 ovClient.VilleClient = rowView["VilleClient"].ToString();
+                ovClient.EmailClient = rowView["EmailClient"].ToString();
+                ovClient.TelephoneClient = rowView["TelephoneClient"].ToString();
                 ovClient.SQLClient = rowView["SQLClient"].ToString();
                 ovClient.DateCreationBase = Convert.ToDateTime(rowView["DateCreationBase"].ToString());
                 ovClient.IdBaseOrigine = int.Parse(rowView["IdBaseOrigine"].ToString());
                 ovClient.IdentifiantTypeBase = int.Parse(rowView["IdentifiantTypeBase"].ToString());
+                ovClient.IdentifiantAgent = int.Parse(rowView["IdentifiantAgent"].ToString());
 
                 ovClient.OvAgent.PseudoAgent = rowView["PseudoAgent"].ToString();
 
@@ -164,8 +168,32 @@ namespace GestionnaireBaseBTS
         //Bouton création nouvelle base
         private void btnCreateBaseDebug_Click(object sender, RoutedEventArgs e)
         {
-            CreationBase creationBase = new CreationBase(ovClient, EnumTypeBase.Client_Debug, this.lstClient, ovAgent);
-            creationBase.Show();
+            OVClient ovClient = (OVClient)lstSuiviClients.SelectedItem;
+
+            CreationBase creationBaseDebug = new CreationBase(ovClient, EnumTypeBase.Client_Debug, this.lstClient, ovAgent);
+            creationBaseDebug.typeBase = EnumTypeBase.Client_Debug;
+            this.dernierClientSelection = ovClient;
+            creationBaseDebug.Show();
+        }
+
+        private void btnCreateBaseRecette_Click(object sender, RoutedEventArgs e)
+        {
+            OVClient ovClient = (OVClient)lstSuiviClients.SelectedItem;
+
+            CreationBase creationBaseRecette = new CreationBase(ovClient, EnumTypeBase.Client_Recette, this.lstClient, ovAgent);
+            creationBaseRecette.typeBase = EnumTypeBase.Client_Recette;
+            this.dernierClientSelection = ovClient;
+            creationBaseRecette.Show();
+        }
+
+        private void btnCreateBaseFormation_Click(object sender, RoutedEventArgs e)
+        {
+            OVClient ovClient = (OVClient)lstSuiviClients.SelectedItem;
+
+            CreationBase creationBaseRecette = new CreationBase(ovClient, EnumTypeBase.Client_Formation, this.lstClient, ovAgent);
+            creationBaseRecette.typeBase = EnumTypeBase.Client_Formation;
+            this.dernierClientSelection = ovClient;
+            creationBaseRecette.Show();
         }
 
         //Textbox filtre client

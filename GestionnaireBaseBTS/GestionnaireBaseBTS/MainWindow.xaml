@@ -319,7 +319,7 @@
                             <DockPanel Height="{Binding ElementName=spHeight, Path=ActualHeight}" Background="#C2C2C2">
                                 <DockPanel DockPanel.Dock="Top" Margin="10,10,10,10" >
                                     <StackPanel Orientation="Horizontal" Height="30" DockPanel.Dock="Top">
-                                        <Button ToolTip="Ajouter une base" Margin="0,2,2,2" BorderBrush="#C2C2C2" Background="#C2C2C2">
+                                        <Button x:Name="btnCreateBaseRecette" ToolTip="Ajouter une base" Margin="0,2,2,2" BorderBrush="#C2C2C2" Background="#C2C2C2" Click="btnCreateBaseRecette_Click">
                                             <Image Source="Images/Data-Add.png" />
                                         </Button>
                                         <Button ToolTip="Supprimer la base" Margin="2" BorderBrush="#C2C2C2" Background="#C2C2C2">
@@ -411,7 +411,7 @@
                             <DockPanel Height="{Binding ElementName=spHeight, Path=ActualHeight}" Background="#C2C2C2">
                                 <DockPanel DockPanel.Dock="Top" Margin="10,10,10,10" >
                                     <StackPanel Orientation="Horizontal" Height="30" DockPanel.Dock="Top">
-                                        <Button ToolTip="Ajouter une base" Margin="0,2,2,2" BorderBrush="#C2C2C2" Background="#C2C2C2">
+                                        <Button x:Name="btnCreateBaseFormation" ToolTip="Ajouter une base" Margin="0,2,2,2" BorderBrush="#C2C2C2" Background="#C2C2C2" Click="btnCreateBaseFormation_Click" >
                                             <Image Source="Images/Data-Add.png" />
                                         </Button>
                                         <Button ToolTip="Supprimer la base" Margin="2" BorderBrush="#C2C2C2" Background="#C2C2C2">

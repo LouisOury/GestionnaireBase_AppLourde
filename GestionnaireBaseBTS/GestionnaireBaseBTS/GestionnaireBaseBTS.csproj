@@ -83,6 +83,7 @@
     <Compile Include="CST\Enums.cs" />
     <Compile Include="DBConnect.cs" />
     <Compile Include="OV\OVAgent.cs" />
+    <Compile Include="OV\OVBaseTest.cs" />
     <Compile Include="OV\OVClient.cs" />
     <Compile Include="OV\OVCommandeRoutee.cs" />
     <Compile Include="OV\OVSuiviClientAgent.cs" />

@@ -22,3 +22,27 @@ C:\Users\lo01.octave.OCTAVE\Documents\Cours\Projet BTS\GestionnaireBaseBTS\Gesti
 C:\Users\lo01.octave.OCTAVE\Documents\Cours\Projet BTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\CreateAgent.baml
 C:\Users\lo01.octave.OCTAVE\Documents\Cours\Projet BTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\CreationBase.g.cs
 C:\Users\lo01.octave.OCTAVE\Documents\Cours\Projet BTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\CreationBase.baml
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\bin\Debug\GestionnaireBaseBTS.exe.config
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\GestionnaireBaseBTS.exe
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\GestionnaireBaseBTS.pdb
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\bin\Debug\GestionnaireBaseBTS.exe
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\bin\Debug\GestionnaireBaseBTS.pdb
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\bin\Debug\MySql.Data.dll
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\bin\Debug\System.Windows.Controls.Input.Toolkit.dll
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\bin\Debug\System.Windows.Controls.Layout.Toolkit.dll
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\bin\Debug\WPFToolkit.dll
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\GestionnaireBaseBTS.csprojResolveAssemblyReference.cache
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\MainWindow.baml
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\Connexion.g.cs
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\CreateAgent.g.cs
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\CreationBase.g.cs
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\MainWindow.g.cs
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\App.g.cs
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\GestionnaireBaseBTS_MarkupCompile.cache
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\GestionnaireBaseBTS_MarkupCompile.lref
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\Connexion.baml
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\CreateAgent.baml
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\CreationBase.baml
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\GestionnaireBaseBTS.g.resources
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\GestionnaireBaseBTS.Properties.Resources.resources
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\GestionnaireBaseBTS.csproj.GenerateResource.Cache

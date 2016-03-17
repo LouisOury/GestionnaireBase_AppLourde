@@ -136,7 +136,7 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-            <Button x:Name="btnCreerBase" Content="Créer la base" DockPanel.Dock="Bottom" Margin="5" Width="180" Height="28" Background="#519627" Foreground="White" />
+            <Button x:Name="btnCreerBase" Content="Créer la base" DockPanel.Dock="Bottom" Margin="5" Width="180" Height="28" Background="#519627" Foreground="White" Click="btnCreerBase_Click" />
         </DockPanel>
         <Grid Visibility="Collapsed" Background="White" Opacity="0.6" x:Name="loadGrid">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
