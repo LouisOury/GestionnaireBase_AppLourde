@@ -34,6 +34,7 @@ namespace GestionnaireBaseBTS
         private OVClient ovClient;
 
         private List<OVClient> lstClient = new List<OVClient>();
+        private List<OVAgent> lstAgent = new List<OVAgent>();
         private List<OVSuiviClientAgent> lstSuiviClientAgent = new List<OVSuiviClientAgent>();
 
         private OVClient dernierClientSelection;
@@ -50,10 +51,38 @@ namespace GestionnaireBaseBTS
 
             this.tbUtilisateur.Text = Utilisateur;
 
+            ChargerAgent();
             AlimenterListeClient();
             AlimenterListeClientAgent();
 
             lstSuiviClients.ItemsSource = lstClient.Where(x => x.IdentifiantTypeBase == 1);
+        }
+
+        private void ChargerAgent()
+        {
+            String loadAgent = "SELECT IdentifiantAgent, NomAgent, PrenomAgent, PseudoAgent, EmailAgent, WindowsUser FROM agent";
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.CommandText = loadAgent;
+            MySqlDataAdapter ad = new MySqlDataAdapter();
+            ad.SelectCommand = cmd;
+            cmd.Connection = connect.con;
+            DataSet ds = new DataSet();
+            ad.Fill(ds);
+            foreach (DataRowView rowView in ds.Tables[0].DefaultView)
+            {
+                OVAgent ovAgent = new OVAgent();
+
+                ovAgent.IdentifiantAgent = int.Parse(rowView["IdentifiantAgent"].ToString());
+                ovAgent.NomAgent = rowView["NomAgent"].ToString();
+                ovAgent.PrenomAgent = rowView["PrenomAgent"].ToString();
+                ovAgent.PseudoAgent = rowView["PseudoAgent"].ToString();
+                ovAgent.EmailAgent = rowView["EmailAgent"].ToString();
+                ovAgent.WindowsUser = rowView["WindowsUser"].ToString();
+
+
+                lstAgent.Add(ovAgent);
+            }
+            ovAgent = lstAgent.Where(x => x.WindowsUser == Environment.UserName).First();
         }
 
         private void AlimenterListeClient()
@@ -115,23 +144,23 @@ namespace GestionnaireBaseBTS
             }
         }
 
-        private void CreerCommandeCreationBaseDebug()
-        {
-            CommandeCreationBaseDebug = new OVCommandeRoutee(CreationBaseDebug);
-        }
+        //private void CreerCommandeCreationBaseDebug()
+        //{
+        //CommandeCreationBaseDebug = new OVCommandeRoutee(CreationBaseDebug);
+        //}
 
-        private void CreationBaseDebug()
-        {
-            OVClient ovClient = (OVClient)lstSuiviClients.SelectedItem;
+        //private void CreationBaseDebug()
+        //{
+        //    OVClient ovClient = (OVClient)lstSuiviClients.SelectedItem;
 
-            CreationBase creationBaseDebug = new CreationBase(ovClient, EnumTypeBase.Client_Debug, this.lstClient, ovAgent);
-            creationBaseDebug.typeBase = EnumTypeBase.Client_Debug;
-            this.dernierClientSelection = ovClient;
-            if (creationBaseDebug.ShowDialog() == true)
-            {
-                AlimenterListeClient();
-            }
-        }
+        //    CreationBase creationBaseDebug = new CreationBase(ovClient, EnumTypeBase.Client_Debug, this.lstClient, ovAgent);
+        //    creationBaseDebug.typeBase = EnumTypeBase.Client_Debug;
+        //    this.dernierClientSelection = ovClient;
+        //    if (creationBaseDebug.ShowDialog() == true)
+        //    {
+        //        AlimenterListeClient();
+        //    }
+        //}
 
         #region Evenements
         //Créer Agent
@@ -294,7 +323,7 @@ namespace GestionnaireBaseBTS
             dgFormation.SelectionChanged += dgFormation_SelectionChanged;
 
             //DataGrid Selection
-            CreerCommandeCreationBaseDebug();
+            //CreerCommandeCreationBaseDebug();
         }
         #endregion
 

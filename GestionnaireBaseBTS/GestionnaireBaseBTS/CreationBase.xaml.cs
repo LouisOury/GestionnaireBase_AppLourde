@@ -132,17 +132,17 @@ namespace GestionnaireBaseBTS
                     }
                 }
 
-                string DBName = tbNomOctave.Text;
+                string DBNameNewBase = tbNomOctave.Text;
+                string DBNameOldBase = "octave_" + cbSave.Text;
                 string ExeLocation = @"C:\wamp\bin\mysql\mysql5.6.17\bin\mysqldump.exe";
                 string tmestr = "";
                 
-                tmestr = DBName + ".sql";
+                tmestr = DBNameNewBase + ".sql";
                 tmestr = tmestr.Replace("/", "-");
-                tmestr = @"C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\OctaveSaasSauvegarde\BaseDebugRecetteFormation\" + tmestr;
+                tmestr = @"C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\OctaveSaasSauvegarde\" + tmestr;
                 StreamWriter file = new StreamWriter(tmestr);
                 ProcessStartInfo proc = new ProcessStartInfo();
-                string cmd = string.Format(@"-u{0} -p{1} -h{2} {3}", "root", "", "localhost", DBName);
-                //string cmd = string.Format(@"-u{0} -p{1} -h{2} {3}", "root", "password", "localhost", "dbfile");
+                string cmd = string.Format(@"-u{0} -p{1} -h{2} {3}", "root", "", "localhost", DBNameOldBase);
                 proc.FileName = ExeLocation;
                 proc.RedirectStandardInput = false;
                 proc.RedirectStandardOutput = true;
@@ -151,27 +151,27 @@ namespace GestionnaireBaseBTS
                 Process p = Process.Start(proc);
                 string res;
                 res = p.StandardOutput.ReadToEnd();
+
                 file.WriteLine(res);
                 p.WaitForExit();
                 file.Close();
-                MessageBox.Show("Backup Completed");
+                MessageBox.Show("Creation réussi !");
 
                 try
                 {
-                    ovClient.NomClient = DBName;
+                    ovClient.NomClient = DBNameNewBase;
                     string rueClient = ovClient.RueClient;
                     string cpClient = ovClient.CPClient;
                     string villeClient = ovClient.VilleClient;
                     string emailClient = ovClient.EmailClient;
                     string telephoneClient = ovClient.TelephoneClient;
                     ovClient.SQLClient = "localhost";
-                    ovClient.DateCreationBase = Convert.ToDateTime(DateTime.Now.ToShortDateString());
                     ovClient.IdBaseOrigine = ovClient.IdentifiantClient;
                     int idTypeBase = ovClient.IdentifiantTypeBase;
                     int idAgent = ovAgent.IdentifiantAgent;
 
                     string connectionString = "SERVER=localhost" + ";" + "DATABASE=gestionbase" + ";" + "UID=root" + ";" + "PASSWORD=" + ";";
-                    string Query = @"INSERT INTO baseclient (NomClient, RueClient, CPClient, VilleClient, EmailClient, TelephoneClient, SQLClient, DateCreationBase, IdBaseOrigine, IdentifiantTypeBase, IdentifiantAgent) values('" + ovClient.NomClient + "','" + rueClient + "','" + cpClient + "','" + villeClient + "','" + emailClient + "','" + telephoneClient + "','" + ovClient.SQLClient + "','" + ovClient.DateCreationBase + "','" + ovClient.IdBaseOrigine + "','" + idTypeBase + "','" + idAgent + "');";
+                    string Query = @"INSERT INTO baseclient (NomClient, RueClient, CPClient, VilleClient, EmailClient, TelephoneClient, SQLClient, DateCreationBase, IdBaseOrigine, IdentifiantTypeBase, IdentifiantAgent) values('" + ovClient.NomClient + "','" + rueClient + "','" + cpClient + "','" + villeClient + "','" + emailClient + "','" + telephoneClient + "','" + ovClient.SQLClient + "', CURDATE(),'" + ovClient.IdBaseOrigine + "','" + idTypeBase + "','" + idAgent + "');";
 
 
                     MySqlConnection MyConn = new MySqlConnection(connectionString);

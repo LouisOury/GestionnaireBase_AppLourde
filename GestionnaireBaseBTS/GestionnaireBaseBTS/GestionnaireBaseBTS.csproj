@@ -88,6 +88,7 @@
     <Compile Include="OV\OVCommandeRoutee.cs" />
     <Compile Include="OV\OVSuiviClientAgent.cs" />
     <Compile Include="OV\OVTypeBase.cs" />
+    <Compile Include="OV\OVUtilisateur.cs" />
     <Compile Include="Reservation.cs" />
     <Compile Include="RG\RGEnums.cs" />
     <Page Include="Connexion.xaml">
