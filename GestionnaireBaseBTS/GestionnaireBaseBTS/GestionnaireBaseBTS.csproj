@@ -163,17 +163,10 @@
     <Resource Include="Images\Command-Reset.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Login-01.png" />
-    <Resource Include="Images\User-Profile.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Arrowhead-Right-01.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Light-Abstract-Wallpapers-2.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Data-Network.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\lock.png" />
@@ -201,6 +194,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DataCenter.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Data-Network.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Login-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\User-Profile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

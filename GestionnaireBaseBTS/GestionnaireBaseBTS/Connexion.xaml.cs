@@ -68,6 +68,7 @@ namespace GestionnaireBaseBTS
                 myLoginCommand.Parameters.AddWithValue("PasswordAgent", tbPassword.Password);
 
                 MySqlDataReader myLoginReader = myLoginCommand.ExecuteReader();
+                
 
                 if (myLoginReader.Read())
                 {

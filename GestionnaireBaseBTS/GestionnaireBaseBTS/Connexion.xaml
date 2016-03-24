@@ -8,7 +8,7 @@
         Title="Connexion" Height="280" Width="320"
         ResizeMode="NoResize" Icon="Images/Nodes.png">
     <Window.Background>
-        <ImageBrush ImageSource="Images/wallpaper.jpg" />
+        <ImageBrush ImageSource="Images/DataCenter.jpg" />
     </Window.Background>
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -16,10 +16,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Image Source="Images/data-Network.png" Width="50" HorizontalAlignment="Left" />
-        <TextBlock Text="Gestionnaire De Bases" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="22" Foreground="#FF0F6A99" Margin="0,0,5,0"/>
+        <Image Source="Images/data-Network.png" Width="70" HorizontalAlignment="Left" />
+        <TextBlock Text="Gestionnaire De Bases" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="22" Foreground="White" Margin="0,0,5,0"/>
 
-        <Border CornerRadius="6" BorderBrush="Gray" Background="LightGray" BorderThickness="2" Padding="8" Grid.Row="1">
+        <Border CornerRadius="6" BorderBrush="White" BorderThickness="2" Padding="8" Grid.Row="1">
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -33,11 +33,11 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Login" Foreground="Black" Margin="25,10,0,0" FontSize="12" />
+                <TextBlock Text="Login" Foreground="White" Margin="25,10,0,0" FontSize="12" />
                 <Image Source="Images/User-Profile.png" Width="15" HorizontalAlignment="Left" Margin="5,0,0,0" />
                 <TextBox x:Name="tbLogin" Grid.Row="1" Width="250" Margin="5" Grid.ColumnSpan="2" />
 
-                <TextBlock Grid.Row="2" Text="Password" Foreground="Black" Margin="25,0,0,0" FontSize="12" />
+                <TextBlock Grid.Row="2" Text="Password" Foreground="White" Margin="25,0,0,0" FontSize="12" />
                 <Image Source="Images/Login-01.png" Grid.Row="2" Width="15" HorizontalAlignment="Left" Margin="5,0,0,0" />
                 <PasswordBox x:Name="tbPassword" Grid.Row="3" Margin="5" Grid.ColumnSpan="2" />
 

@@ -18,6 +18,7 @@ using System.Data;
 using MySql.Data.MySqlClient;
 using GestionnaireBaseBTS.OV;
 using GestionnaireBaseBTS.CST;
+using System.IO;
 
 namespace GestionnaireBaseBTS
 {
@@ -57,6 +58,7 @@ namespace GestionnaireBaseBTS
             lstSuiviClients.ItemsSource = lstClient.Where(x => x.IdentifiantTypeBase == 1);
         }
 
+        #region Fonction
         private void ChargerAgent()
         {
             String loadAgent = "SELECT IdentifiantAgent, NomAgent, PrenomAgent, PseudoAgent, EmailAgent, WindowsUser FROM agent";
@@ -143,6 +145,76 @@ namespace GestionnaireBaseBTS
             }
         }
 
+        private void SupprimerBase()
+        {
+            OVClient ovClientSelect = new OVClient();
+            if (dgDebug.SelectedItem != null)
+            {
+                ovClientSelect = (OVClient)dgDebug.SelectedItem;
+            }
+            else if (dgRecette.SelectedItem != null)
+            {
+                ovClientSelect = (OVClient)dgRecette.SelectedItem;
+            }
+            else if (dgFormation.SelectedItem != null)
+            {
+                ovClientSelect = (OVClient)dgFormation.SelectedItem;
+            }
+
+            string DatabaseName = ovClientSelect.NomClient;
+            string connectionString = "SERVER=localhost; DATABASE=" + DatabaseName + "; UID=root; PASSWORD=;";
+            string connectionString2 = "SERVER=localhost; DATABASE=gestionbase; UID=root; PASSWORD=;";
+
+            if ((MessageBox.Show("Êtes-vous sûr de vouloir supprimer cette base ?", "Warning ! Suppression d'une base", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes))
+            {
+                try
+                {
+                    //Supprime la base de données selectionnée
+                    #region DROP DATABASE
+                    string Query = @"DROP DATABASE " + DatabaseName + ";";
+                    MySqlConnection MyConn = new MySqlConnection(connectionString);
+                    MySqlCommand MyCommand = new MySqlCommand(Query, MyConn);
+                    MySqlDataReader MyReader;
+                    MyConn.Open();
+                    MyReader = MyCommand.ExecuteReader();
+                    MyConn.Close();
+                    #endregion
+
+                    //Supprime les lignes dans les tables 'BaseClient' et 'SuiviClientAgent' de la base 'GestionBase'
+                    #region DELETE FROM gestionbase
+                    string Query2 = @"DELETE FROM suiviclientagent WHERE Commentaire Like '%" + DatabaseName + "%';";
+                    MySqlConnection MyConn2 = new MySqlConnection(connectionString2);
+                    MySqlCommand MyCommand2 = new MySqlCommand(Query2, MyConn2);
+                    MySqlDataReader MyReader2;
+                    MyConn2.Open();
+                    MyReader2 = MyCommand2.ExecuteReader();
+                    MyConn2.Close();
+
+                    string Query3 = @"DELETE FROM baseclient WHERE NomClient Like '%" + DatabaseName + "%';";
+                    MyCommand2 = new MySqlCommand(Query3, MyConn2);
+                    MySqlDataReader MyReader3;
+                    MyConn2.Open();
+                    MyReader3 = MyCommand2.ExecuteReader();
+                    MyConn2.Close();
+                    #endregion
+
+                    //Supprime la fichier .sql associé a la base présent dans le repertoire suivant 
+                    if (File.Exists(@"C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\OctaveSaasSauvegarde\Sauvegarde_DebugRecetteFormation\" + DatabaseName + ".sql"))
+                    {
+                        File.Delete(@"C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\OctaveSaasSauvegarde\Sauvegarde_DebugRecetteFormation\" + DatabaseName + ".sql");
+                    }
+
+                    MessageBox.Show("Base supprimée correctement !");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+        #endregion
+
+
         #region Evenements
         //Créer Agent
         private void MenuAddAgent_Click(object sender, RoutedEventArgs e)
@@ -178,42 +250,86 @@ namespace GestionnaireBaseBTS
         //Bouton création nouvelle base
         private void btnCreateBaseDebug_Click(object sender, RoutedEventArgs e)
         {
-            OVClient ovClient = (OVClient)lstSuiviClients.SelectedItem;
+            if (lstSuiviClients.SelectedItem == null)
+            {
+                MessageBox.Show("Selectionner une base client !");
+            }
+            else
+            {
+                OVClient ovClient = (OVClient)lstSuiviClients.SelectedItem;
 
-            CreationBase creationBaseDebug = new CreationBase(ovClient, EnumTypeBase.Client_Debug, this.lstClient, ovAgent);
-            creationBaseDebug.typeBase = EnumTypeBase.Client_Debug;
-            this.dernierClientSelection = ovClient;
-            creationBaseDebug.Show();
+                CreationBase creationBaseDebug = new CreationBase(ovClient, EnumTypeBase.Client_Debug, this.lstClient, ovAgent);
+                creationBaseDebug.typeBase = EnumTypeBase.Client_Debug;
+                this.dernierClientSelection = ovClient;
+                creationBaseDebug.Show();
+            }
         }
 
         private void btnCreateBaseRecette_Click(object sender, RoutedEventArgs e)
         {
-            OVClient ovClient = (OVClient)lstSuiviClients.SelectedItem;
+            if (lstSuiviClients.SelectedItem == null)
+            {
+                MessageBox.Show("Selectionner une base client !");
+            }
+            else
+            {
+                OVClient ovClient = (OVClient)lstSuiviClients.SelectedItem;
 
-            CreationBase creationBaseRecette = new CreationBase(ovClient, EnumTypeBase.Client_Recette, this.lstClient, ovAgent);
-            creationBaseRecette.typeBase = EnumTypeBase.Client_Recette;
-            this.dernierClientSelection = ovClient;
-            creationBaseRecette.Show();
+                CreationBase creationBaseRecette = new CreationBase(ovClient, EnumTypeBase.Client_Recette, this.lstClient, ovAgent);
+                creationBaseRecette.typeBase = EnumTypeBase.Client_Recette;
+                this.dernierClientSelection = ovClient;
+                creationBaseRecette.Show();
+            }
         }
 
         private void btnCreateBaseFormation_Click(object sender, RoutedEventArgs e)
         {
-            OVClient ovClient = (OVClient)lstSuiviClients.SelectedItem;
+            if (lstSuiviClients.SelectedItem == null)
+            {
+                MessageBox.Show("Selectionner une base client !");
+            }
+            else
+            {
+                OVClient ovClient = (OVClient)lstSuiviClients.SelectedItem;
 
-            CreationBase creationBaseRecette = new CreationBase(ovClient, EnumTypeBase.Client_Formation, this.lstClient, ovAgent);
-            creationBaseRecette.typeBase = EnumTypeBase.Client_Formation;
-            this.dernierClientSelection = ovClient;
-            creationBaseRecette.Show();
+                CreationBase creationBaseRecette = new CreationBase(ovClient, EnumTypeBase.Client_Formation, this.lstClient, ovAgent);
+                creationBaseRecette.typeBase = EnumTypeBase.Client_Formation;
+                this.dernierClientSelection = ovClient;
+                creationBaseRecette.Show();
+            }
         }
 
         //Bouton Suppression Base
         private void BtnDeleteBaseDebug_Click(object sender, RoutedEventArgs e)
         {
-            if ((MessageBox.Show("Êtes-vous sûr de vouloir supprimer cette base ?", "Warning ! Suppression d'une base", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes))
-            {
+            SupprimerBase();
+        }
 
-                MessageBox.Show("Base supprimée correctement !");
+        private void BtnDeleteBaseRecette_Click(object sender, RoutedEventArgs e)
+        {
+            SupprimerBase();
+        }
+
+        private void BtnDeleteBaseFormation_Click(object sender, RoutedEventArgs e)
+        {
+            SupprimerBase();
+        }
+
+        //Bouton "mes bases"
+        private void btnMesBases_Click(object sender, RoutedEventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(String.Format("Mes bases ({0}) : ", ovAgent.PseudoAgent));
+            sb.AppendLine("");
+            foreach (OVClient ovClient in lstClient)
+            {
+                if (ovClient.OvAgent.PseudoAgent == ovAgent.PseudoAgent)
+                {
+                    sb.AppendLine(String.Format("- {0}", ovClient.NomClient));
+                }
             }
+
+            MessageBox.Show(sb.ToString(), "Mes bases de tests", MessageBoxButton.OK);
         }
 
         //Textbox filtre client
@@ -285,6 +401,7 @@ namespace GestionnaireBaseBTS
                 dgReservationDebug.ItemsSource = ovBase.LstOvSuiviClientAgent;
             }
         }
+
         private void dgRecette_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dgRecette.SelectedItem != null)
@@ -294,6 +411,7 @@ namespace GestionnaireBaseBTS
                 dgReservationRecette.ItemsSource = ovBase.LstOvSuiviClientAgent;
             }
         }
+
         private void dgFormation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dgFormation.SelectedItem != null)
@@ -313,6 +431,8 @@ namespace GestionnaireBaseBTS
             dgRecette.SelectionChanged += dgRecette_SelectionChanged;
             dgFormation.SelectionChanged += dgFormation_SelectionChanged;
         }
+
         #endregion
+
     }
 }

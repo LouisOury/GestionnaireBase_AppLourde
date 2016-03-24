@@ -185,7 +185,7 @@
                                     </Button>
                                 </Grid>
                             </DockPanel>
-                            <Button x:Name="btnCreationBaseClt" DockPanel.Dock="Bottom" Content="Créer une nouvelle base Client" VerticalAlignment="Bottom" Height="25" Background="#A1A1A1" Visibility="Collapsed" />
+                            <Button x:Name="btnMesBases" DockPanel.Dock="Bottom" Content="Mes bases" VerticalAlignment="Bottom" Height="25" Background="#C2C2C2" Margin="5" Click="btnMesBases_Click" />
                             <ListView Foreground="#323232" Margin="5" BorderBrush="#EEEEEE" BorderThickness="1" x:Name="lstSuiviClients" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionChanged="lstSuiviClients_SelectionChanged">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
@@ -322,7 +322,7 @@
                                         <Button x:Name="btnCreateBaseRecette" ToolTip="Ajouter une base" Margin="0,2,2,2" BorderBrush="#C2C2C2" Background="#C2C2C2" Click="btnCreateBaseRecette_Click">
                                             <Image Source="Images/Data-Add.png" />
                                         </Button>
-                                        <Button ToolTip="Supprimer la base" Margin="2" BorderBrush="#C2C2C2" Background="#C2C2C2">
+                                        <Button x:Name="BtnDeleteBaseRecette" ToolTip="Supprimer la base" Margin="2" BorderBrush="#C2C2C2" Background="#C2C2C2" Click="BtnDeleteBaseRecette_Click">
                                             <Image Source="Images/Data-Delete.png" />
                                         </Button>
                                     </StackPanel>
@@ -414,7 +414,7 @@
                                         <Button x:Name="btnCreateBaseFormation" ToolTip="Ajouter une base" Margin="0,2,2,2" BorderBrush="#C2C2C2" Background="#C2C2C2" Click="btnCreateBaseFormation_Click" >
                                             <Image Source="Images/Data-Add.png" />
                                         </Button>
-                                        <Button ToolTip="Supprimer la base" Margin="2" BorderBrush="#C2C2C2" Background="#C2C2C2">
+                                        <Button x:Name="BtnDeleteBaseFormation" ToolTip="Supprimer la base" Margin="2" BorderBrush="#C2C2C2" Background="#C2C2C2" Click="BtnDeleteBaseFormation_Click">
                                             <Image Source="Images/Data-Delete.png" />
                                         </Button>
                                     </StackPanel>
