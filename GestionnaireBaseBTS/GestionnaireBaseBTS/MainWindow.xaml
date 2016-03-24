@@ -88,7 +88,7 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#ADD274" />
+                    <Setter Property="Background" Value="#F75858" />
                     <Setter Property="Foreground" Value="Black" />
                 </Trigger>
             </Style.Triggers>
@@ -104,12 +104,12 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#19009900" />
+                                <Setter TargetName="Border" Property="Background" Value="#FF6868" />
                                 <!--<Setter Property="TextBlock.Foreground" Value="Black" />-->
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
                                 <!--<Setter TargetName="Border" Property="Background" Value="#CC555555" />-->
-                                <Setter TargetName="Border" Property="Background" Value="#35009900" />
+                                <Setter TargetName="Border" Property="Background" Value="#F75858" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -230,7 +230,7 @@
                                         <Button x:Name="btnCreateBaseDebug" ToolTip="Ajouter une base" Margin="0,2,2,2" BorderBrush="#C2C2C2" Background="#C2C2C2" Click="btnCreateBaseDebug_Click" >
                                             <Image Source="Images/Data-Add.png" />
                                         </Button>
-                                        <Button ToolTip="Supprimer la base" Margin="2" BorderBrush="#C2C2C2" Background="#C2C2C2" Command="{Binding CommandeCreationBaseDebug}">
+                                        <Button x:Name="BtnDeleteBaseDebug" ToolTip="Supprimer la base" Margin="2" BorderBrush="#C2C2C2" Background="#C2C2C2" Click="BtnDeleteBaseDebug_Click">
                                             <Image Source="Images/Data-Delete.png" />
                                         </Button>
                                     </StackPanel>

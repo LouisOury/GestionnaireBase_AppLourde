@@ -43,7 +43,6 @@ namespace GestionnaireBaseBTS
 
         public MainWindow()
         {
-            //Initialisation
             InitializeComponent();
             EventsCommandes();
 
@@ -144,24 +143,6 @@ namespace GestionnaireBaseBTS
             }
         }
 
-        //private void CreerCommandeCreationBaseDebug()
-        //{
-        //CommandeCreationBaseDebug = new OVCommandeRoutee(CreationBaseDebug);
-        //}
-
-        //private void CreationBaseDebug()
-        //{
-        //    OVClient ovClient = (OVClient)lstSuiviClients.SelectedItem;
-
-        //    CreationBase creationBaseDebug = new CreationBase(ovClient, EnumTypeBase.Client_Debug, this.lstClient, ovAgent);
-        //    creationBaseDebug.typeBase = EnumTypeBase.Client_Debug;
-        //    this.dernierClientSelection = ovClient;
-        //    if (creationBaseDebug.ShowDialog() == true)
-        //    {
-        //        AlimenterListeClient();
-        //    }
-        //}
-
         #region Evenements
         //Créer Agent
         private void MenuAddAgent_Click(object sender, RoutedEventArgs e)
@@ -223,6 +204,16 @@ namespace GestionnaireBaseBTS
             creationBaseRecette.typeBase = EnumTypeBase.Client_Formation;
             this.dernierClientSelection = ovClient;
             creationBaseRecette.Show();
+        }
+
+        //Bouton Suppression Base
+        private void BtnDeleteBaseDebug_Click(object sender, RoutedEventArgs e)
+        {
+            if ((MessageBox.Show("Êtes-vous sûr de vouloir supprimer cette base ?", "Warning ! Suppression d'une base", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes))
+            {
+
+                MessageBox.Show("Base supprimée correctement !");
+            }
         }
 
         //Textbox filtre client
@@ -321,14 +312,7 @@ namespace GestionnaireBaseBTS
             dgDebug.SelectionChanged += dgDebug_SelectionChanged;
             dgRecette.SelectionChanged += dgRecette_SelectionChanged;
             dgFormation.SelectionChanged += dgFormation_SelectionChanged;
-
-            //DataGrid Selection
-            //CreerCommandeCreationBaseDebug();
         }
-        #endregion
-
-        #region Commandes
-        public ICommand CommandeCreationBaseDebug { get; internal set; }
         #endregion
     }
 }

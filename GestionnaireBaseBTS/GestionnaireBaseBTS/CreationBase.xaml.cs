@@ -28,11 +28,13 @@ namespace GestionnaireBaseBTS
     /// </summary>
     public partial class CreationBase : Window
     {
-        internal OVClient ovClient;
-
-        internal List<OVClient> lstClient = new List<OVClient>();
+        private OVClient ovClient;
         private OVAgent ovAgent;
 
+        OVBaseTest ovBaseTest = new OVBaseTest();
+
+        internal List<OVClient> lstClient = new List<OVClient>();
+        
         internal EnumTypeBase typeBase = EnumTypeBase.Client_Debug;
         internal EnumNameSQL nameSQL = EnumNameSQL.localhost;
 
@@ -51,20 +53,24 @@ namespace GestionnaireBaseBTS
             InitialisationComposants();
         }
 
+        #region Initialisation
         private void InitialisationComposants()
         {
             cbTypeBase.ItemsSource = lstEnumTypeBase;
 
             if (typeBase == EnumTypeBase.Client_Debug)
             {
+                cbTypeBase.SelectedIndex = 3;
                 cbNomSQL.ItemsSource = lstEnumNameSQL.Where(p => p.Contains("localhost"));
             }
             else if (typeBase == EnumTypeBase.Client_Recette)
             {
+                cbTypeBase.SelectedIndex = 2;
                 cbNomSQL.ItemsSource = lstEnumNameSQL.Where(p => p.Contains("localhost"));
             }
-            else
+            else if (typeBase == EnumTypeBase.Client_Formation)
             {
+                cbTypeBase.SelectedIndex = 1;
                 cbNomSQL.ItemsSource = lstEnumNameSQL.Where(p => p.Contains("localhost"));
             }
 
@@ -93,7 +99,9 @@ namespace GestionnaireBaseBTS
                 }
             }
         }
+        #endregion
 
+        #region Events
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
@@ -102,7 +110,6 @@ namespace GestionnaireBaseBTS
 
         private void btnCreerBase_Click(object sender, RoutedEventArgs e)
         {
-            OVBaseTest ovBaseTest = new OVBaseTest();
             ovBaseTest.MNomOctave = tbNomOctave.Text;
             ovBaseTest.MNomSQL = String.Format(cbNomSQL.SelectedItem.ToString());
 
@@ -115,7 +122,7 @@ namespace GestionnaireBaseBTS
 
             if ((MessageBox.Show("Êtes-vous sûr de vouloir créer cette nouvelle base ? \r\n\n Un mail sera envoyé à : " + tbMail.Text, "Warning ! Création d'une nouvelle base", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes))
             {
-
+                //Backup to a new base
                 ovBaseTest.MTypeBase = cbTypeBase.SelectedItem.ToString();
                 ovBaseTest.MSave = cbSave.SelectedItem.ToString();
 
@@ -136,10 +143,10 @@ namespace GestionnaireBaseBTS
                 string DBNameOldBase = "octave_" + cbSave.Text;
                 string ExeLocation = @"C:\wamp\bin\mysql\mysql5.6.17\bin\mysqldump.exe";
                 string tmestr = "";
-                
+
                 tmestr = DBNameNewBase + ".sql";
                 tmestr = tmestr.Replace("/", "-");
-                tmestr = @"C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\OctaveSaasSauvegarde\" + tmestr;
+                tmestr = @"C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\OctaveSaasSauvegarde\Sauvegarde_DebugRecetteFormation\" + tmestr;
                 StreamWriter file = new StreamWriter(tmestr);
                 ProcessStartInfo proc = new ProcessStartInfo();
                 string cmd = string.Format(@"-u{0} -p{1} -h{2} {3}", "root", "", "localhost", DBNameOldBase);
@@ -157,28 +164,69 @@ namespace GestionnaireBaseBTS
                 file.Close();
                 MessageBox.Show("Creation réussi !");
 
+                //Create new database
+                string connect = "SERVER=localhost" + ";" + "DATABASE=gestionbase" + ";" + "UID=root" + ";" + "PASSWORD=" + ";";
+                MySqlConnection MySQLConn = new MySqlConnection(connect);
+                MySQLConn.Open();
+                string stgCreate = "CREATE DATABASE IF NOT EXISTS " + DBNameNewBase + ";";
+                MySqlCommand cmd2 = new MySqlCommand(stgCreate, MySQLConn);
+                cmd2.ExecuteNonQuery();
+                MySQLConn.Close();
+
+                //Restore new database
+                string constring = "server=localhost;user=root;pwd=;database=" + DBNameNewBase + ";";
+                string file2 = @"C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\OctaveSaasSauvegarde\Sauvegarde_DebugRecetteFormation\" + DBNameNewBase + ".sql";
+                using (MySqlConnection conn = new MySqlConnection(constring))
+                {
+                    using (MySqlCommand cmd3 = new MySqlCommand())
+                    {
+                        using (MySqlBackup mb = new MySqlBackup(cmd3))
+                        {
+                            cmd3.Connection = conn;
+                            conn.Open();
+                            mb.ImportFromFile(file2);
+                            conn.Close();
+                        }
+                    }
+                }
+
+                //INSERT dans les tables BaseClient & SuiviClientAgent de la base GEstionBase
                 try
                 {
+                    OVSuiviClientAgent ovSuiviClientAgent = new OVSuiviClientAgent();
+
                     ovClient.NomClient = DBNameNewBase;
                     string rueClient = ovClient.RueClient;
                     string cpClient = ovClient.CPClient;
                     string villeClient = ovClient.VilleClient;
                     string emailClient = ovClient.EmailClient;
                     string telephoneClient = ovClient.TelephoneClient;
-                    ovClient.SQLClient = "localhost";
-                    ovClient.IdBaseOrigine = ovClient.IdentifiantClient;
                     int idTypeBase = ovClient.IdentifiantTypeBase;
                     int idAgent = ovAgent.IdentifiantAgent;
+                    string commentaire = "Base de " + DBNameNewBase;
 
                     string connectionString = "SERVER=localhost" + ";" + "DATABASE=gestionbase" + ";" + "UID=root" + ";" + "PASSWORD=" + ";";
-                    string Query = @"INSERT INTO baseclient (NomClient, RueClient, CPClient, VilleClient, EmailClient, TelephoneClient, SQLClient, DateCreationBase, IdBaseOrigine, IdentifiantTypeBase, IdentifiantAgent) values('" + ovClient.NomClient + "','" + rueClient + "','" + cpClient + "','" + villeClient + "','" + emailClient + "','" + telephoneClient + "','" + ovClient.SQLClient + "', CURDATE(),'" + ovClient.IdBaseOrigine + "','" + idTypeBase + "','" + idAgent + "');";
 
+                    ovClient.SQLClient = "localhost";
+                    ovClient.IdBaseOrigine = ovClient.IdentifiantClient;
+
+                    string Query = @"INSERT INTO baseclient (NomClient, RueClient, CPClient, VilleClient, EmailClient, TelephoneClient, SQLClient, DateCreationBase, IdBaseOrigine, IdentifiantTypeBase, IdentifiantAgent) values('" + ovClient.NomClient + "','" + rueClient + "','" + cpClient + "','" + villeClient + "','" + emailClient + "','" + telephoneClient + "','" + ovClient.SQLClient + "', CURDATE(),'" + ovClient.IdBaseOrigine + "','" + idTypeBase + "','" + idAgent + "');";
 
                     MySqlConnection MyConn = new MySqlConnection(connectionString);
                     MySqlCommand MyCommand = new MySqlCommand(Query, MyConn);
                     MySqlDataReader MyReader;
                     MyConn.Open();
                     MyReader = MyCommand.ExecuteReader();
+                    long idClient = MyCommand.LastInsertedId;
+                    MyConn.Close();
+
+                    string Query2 = @" INSERT INTO suiviclientagent (Commentaire, DateExpiration, IdentifiantClient, IdentifiantAgent) values('" + commentaire + "', DATE_ADD(CURDATE(), INTERVAL 2 month ) ,'" + idClient + "','" + idAgent + "');";
+                    MyCommand = new MySqlCommand(Query2, MyConn);
+                    MySqlDataReader MyReader2;
+                    MyConn.Open();
+                    MyReader2 = MyCommand.ExecuteReader();
+                    MyConn.Close();
+
                 }
                 catch (MySqlException ex)
                 {
@@ -193,7 +241,9 @@ namespace GestionnaireBaseBTS
                 this.Close();
             }
         }
+        #endregion
 
+        #region Validation
         public bool EmailValide(string adresseEmail)
         {
             if (String.IsNullOrEmpty(adresseEmail))
@@ -236,5 +286,7 @@ namespace GestionnaireBaseBTS
             }
             return match.Groups[1].Value + domainName;
         }
+        #endregion
+
     }
 }

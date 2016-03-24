@@ -46,3 +46,4 @@ C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\Gestio
 C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\GestionnaireBaseBTS.g.resources
 C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\GestionnaireBaseBTS.Properties.Resources.resources
 C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\obj\Debug\GestionnaireBaseBTS.csproj.GenerateResource.Cache
+C:\Users\lo01.octave.OCTAVE\Documents\Cours\ProjetBTS\GestionnaireBaseBTS\GestionnaireBaseBTS\bin\Debug\MySqlBackup.dll
